@@ -56,11 +56,6 @@ def right(mat) :
 # GAUCHE
 def left(mat) :
 	matrice = np.array(mat)
-	for i in range(4) :
-		for j in range(3) :
-			if matrice[i,j] == matrice[i,j+1] :
-				matrice[i,j] = 2 * matrice[i,j]
-				matrice[i,j+1] = 0
 	for z in range(4) :
 		for i in range(4) :
 			for j in range(3) :
