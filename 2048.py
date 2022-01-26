@@ -4,10 +4,10 @@ import keyboard
 from time import sleep
 from os import system, name
 
-# Définit les quatres actions possibles sur la grille :
-# HAUT
+# Define the 4 possible actions on the grid
+# Up
 def up(mat) :
-	matrice = np.array(mat)
+	matrice = mat.copy()
 	for z in range(4) :
 		for j in range(4) :
 			for i in range(3) :
@@ -21,9 +21,10 @@ def up(mat) :
 						matrice[i+1,j] = 0
 	return matrice
 
-# BAS
+
+# Down
 def down(mat) :
-	matrice = np.array(mat)
+	matrice = mat.copy()
 	for z in range(4) :
 		for j in range(4) :
 			for i in range(3) :
@@ -37,9 +38,10 @@ def down(mat) :
 						matrice[3-(i+1),j] = 0
 	return matrice
 
-# DROITE
+
+# Right
 def right(mat) :
-	matrice = np.array(mat)
+	matrice = mat.copy()
 	for z in range(4) :
 		for i in range(4) :
 			for j in range(3) :
@@ -53,9 +55,10 @@ def right(mat) :
 						matrice[i,3-(j+1)] = 0
 	return matrice
 
-# GAUCHE
+
+# Left
 def left(mat) :
-	matrice = np.array(mat)
+	matrice = mat.copy()
 	for z in range(4) :
 		for i in range(4) :
 			for j in range(3) :
@@ -68,19 +71,21 @@ def left(mat) :
 						matrice[i,j] = 2 * matrice[i,j]
 						matrice[i,j+1] = 0
 	return matrice
-	
-# Cherche les 0 dans le tableau, en prends un au hasard et le remplace par la valeur 2 ou 4
+
+
+# Search the 0 in the matrice, pick one at random and replace it by 2 or 4
 def rand(matrice) :
 	w = np.where(matrice == 0)
 	l = len(w[0])
 	
-	if l != 0 : # Evite un index out of range
+	if l != 0 : # To avoid index out of range
 		r = random.choice(range(l))
 		if random.random() < 0.8 :
 			matrice[w[0][r] , w[1][r]] = 2
 		else :
 			matrice[w[0][r] , w[1][r]] = 4
 	return matrice
+
 
 # Clear screen
 def clear():
@@ -92,6 +97,7 @@ def clear():
     # for mac and linux(here, os.name is 'posix')
     else:
         _ = system('clear')
+
 
 # Draw the state of the game using the matrice
 def draw(mat) :
@@ -264,15 +270,13 @@ def draw(mat) :
 		print(square[k])
 
 
-# Initialisation des variables :
+# Variable initialization :
 mat1 = np.array([[0, 0, 0, 0],
 		[0, 0, 0, 0],
 		[0, 0, 0, 0],
 		[0, 0, 0, 0]])
-mat2 = np.array([[0, 0, 0, 0],
-		[0, 0, 0, 0],
-		[0, 0, 0, 0],
-		[0, 0, 0, 0]])
+mat2 = mat1.copy()
+
 rand(mat2)
 rand(mat2)
 
@@ -283,63 +287,67 @@ print("""
 
 
 
-	   222222222222222         000000000            444444444       888888888     
-	  2:::::::::::::::22     00:::::::::00         4::::::::4     88:::::::::88   
-	  2::::::222222:::::2  00:::::::::::::00      4:::::::::4   88:::::::::::::88 
-	  2222222     2:::::2 0:::::::000:::::::0    4::::44::::4  8::::::88888::::::8
-	              2:::::2 0::::::0   0::::::0   4::::4 4::::4  8:::::8     8:::::8
-	              2:::::2 0:::::0     0:::::0  4::::4  4::::4  8:::::8     8:::::8
-	           2222::::2  0:::::0     0:::::0 4::::4   4::::4   8:::::88888:::::8 
-	      22222::::::22   0:::::0 000 0:::::04::::444444::::444  8:::::::::::::8  
-	    22::::::::222     0:::::0 000 0:::::04::::::::::::::::4 8:::::88888:::::8 
-	   2:::::22222        0:::::0     0:::::04444444444:::::4448:::::8     8:::::8
-	  2:::::2             0:::::0     0:::::0          4::::4  8:::::8     8:::::8
-	  2:::::2             0::::::0   0::::::0          4::::4  8:::::8     8:::::8
-	  2:::::2       2222220:::::::000:::::::0          4::::4  8::::::88888::::::8
-	  2::::::2222222:::::2 00:::::::::::::00         44::::::44 88:::::::::::::88 
-	  2::::::::::::::::::2   00:::::::::00           4::::::::4   88:::::::::88   
-	  22222222222222222222     000000000             4444444444     888888888     
+	   222222222222222          000000000             444444444        888888888     
+	  2:::::::::::::::22      00:::::::::00          4::::::::4      88:::::::::88   
+	  2::::::222222:::::2   00:::::::::::::00       4:::::::::4    88:::::::::::::88 
+	  2222222     2:::::2  0:::::::000:::::::0     4::::44::::4   8::::::88888::::::8
+	              2:::::2  0::::::0   0::::::0    4::::4 4::::4   8:::::8     8:::::8
+	              2:::::2  0:::::0     0:::::0   4::::4  4::::4   8:::::8     8:::::8
+	           2222::::2   0:::::0     0:::::0  4::::4   4::::4    8:::::88888:::::8 
+	      22222::::::22    0:::::0 000 0:::::0 4::::444444::::444   8:::::::::::::8  
+	    22::::::::222      0:::::0 000 0:::::0 4::::::::::::::::4  8:::::88888:::::8 
+	   2:::::22222         0:::::0     0:::::0 4444444444:::::444 8:::::8     8:::::8
+	  2:::::2              0:::::0     0:::::0           4::::4   8:::::8     8:::::8
+	  2:::::2              0::::::0   0::::::0           4::::4   8:::::8     8:::::8
+	  2:::::2       222222 0:::::::000:::::::0           4::::4   8::::::88888::::::8
+	  2::::::2222222:::::2  00:::::::::::::00          44::::::44  88:::::::::::::88 
+	  2::::::::::::::::::2    00:::::::::00            4::::::::4    88:::::::::88   
+	  22222222222222222222      000000000              4444444444      888888888     
   
   
   
   
 """)
 
-sleep(3)
+sleep(2)
 
 
-# Boucle du jeu
+# Game loop
 while True :
 	
-	sleep(0.5)
+	sleep(0.3)
 	clear()
 	draw(mat2)
-	mat1 = np.array(mat2)
+	mat1 = mat2.copy()
 	
 	key = keyboard.read_key()
 	
 	if key == "up" :
 		mat2 = np.array(up(mat1))
-		rand(mat2)
+		if not np.array_equiv(mat1, mat2) :
+			rand(mat2)
 
 	elif key == "down" :
 		mat2 = np.array(down(mat1))
-		rand(mat2)
+		if not np.array_equiv(mat1, mat2) :
+			rand(mat2)
 
 	elif key == "right" :
 		mat2 = np.array(right(mat1))
-		rand(mat2)
+		if not np.array_equiv(mat1, mat2) :
+			rand(mat2)
 
 	elif key == "left" :
 		mat2 = np.array(left(mat1))
-		rand(mat2)
+		if not np.array_equiv(mat1, mat2) :
+			rand(mat2)
 
 	elif key == "esc" :
 		break
 
 
 
-# Fin du jeu
+# End
 clear()
 print("""
  _____   ___  ___  ___ _____   _____  _   _ ___________  
@@ -349,3 +357,15 @@ print("""
 | |_\ \| | | || |  | || |___  \ \_/ /\ \_/ / |___| |\ \  
  \____/\_| |_/\_|  |_/\____/   \___/  \___/\____/\_| \_| 
 """)
+
+# To do :
+# main() to start the program
+#	Logo + Main Menu
+#		-Play
+#		-Load game
+#		-How to play (← ↑ → ↓ to move, esc to quit, s to save + game rules)
+# game() for game loop
+# ini() for initialization
+# game_over()
+# Score
+# save() and load()
